@@ -13,4 +13,8 @@ With Meteor installed locally:
 - cd gamesim/app
 - meteor run
 
+Start docker container:
+
+- docker-compose up
+
 Access http://localhost:3000 in the browser.
