@@ -1,31 +1,19 @@
 import { Meteor } from 'meteor/meteor';
 import { LinksCollection } from '/imports/api/links';
+import { TypesCollection } from '/imports/api/types';
 
-function insertLink({ title, url }) {
-  LinksCollection.insert({title, url, createdAt: new Date()});
+function insertType({ id, name, upgradeRate, profit }) {
+  TypesCollection.insert({id, name, upgradeRate, profit, createdAt: new Date()});
 }
 
 Meteor.startup(() => {
-  // If the Links collection is empty, add some data.
-  if (LinksCollection.find().count() === 0) {
-    insertLink({
-      title: 'Do the Tutorial',
-      url: 'https://www.meteor.com/tutorials/react/creating-an-app'
-    });
+  // If the Types collection is empty, add some data.
 
-    insertLink({
-      title: 'Follow the Guide',
-      url: 'http://guide.meteor.com'
-    });
-
-    insertLink({
-      title: 'Read the Docs',
-      url: 'https://docs.meteor.com'
-    });
-
-    insertLink({
-      title: 'Discussions',
-      url: 'https://forums.meteor.com'
-    });
+  if (TypesCollection.find().count() === 0) {
+    [
+      { id: "lemonade", name: "Lemonade Stand", upgradeRate: 1.07, profit: 1 },
+      { id: "newspaper", name: "Paper Route", upgradeRate: 1.15, profit: 60 },
+    ].forEach(insertType)
   }
+
 });
