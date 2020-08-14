@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { PlayerForm } from './PlayerForm';
 
 export const Player = ({ player }) => {
   let name;
@@ -9,9 +10,10 @@ export const Player = ({ player }) => {
   };
 
   return (
-    <div>
-      <p>Hello, my name is {player.name}.</p>
+    <div className="player">
+      <p>Player name: {player.name}.</p>
       <p>My current cash is: $ {player.cash}.</p>
+      <PlayerForm player={player} />
     </div>
   );
 };
