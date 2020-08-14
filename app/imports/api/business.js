@@ -6,11 +6,19 @@ export const BusinessCollection = new Mongo.Collection('business');
 Meteor.methods({
   'business.insert'(typeId, playerId) {
 
-    BusinessCollection.insert({
+    const selector = { type: typeId, player: playerId };
+    const business = BusinessCollection.find(selector, { sort: { createdAt: -1}}).fetch()[0];
+
+    const level = business ? business.level + 1 : 1;
+    const modifier = {
       type: typeId,
-      level: 1,
-      createdAt: new Date().getTime(),
-    })
+      player: playerId,
+      level: level,
+      updatedAt: new Date().getTime(),
+    }
+
+    console.log(business);
+    BusinessCollection.upsert(selector, modifier);
   },
  
 });

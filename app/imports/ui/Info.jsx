@@ -20,6 +20,13 @@ export const Info = () => {
       currentPlayer: getCurrentPlayer()
     }));
 
+  const RenderPlayer = (props) => {
+    if (getCurrentPlayer()._id) {
+      return (<Player player={currentPlayer} />);
+    }
+    return '';
+  };
+
   return (
     <div>
       <h2>Business Types:</h2>
@@ -36,9 +43,7 @@ export const Info = () => {
         </li>
       )}
 
-      Current Player: { currentPlayer.name }
-
-      <Player player={currentPlayer} />
+      <RenderPlayer />
 
     </div>
   );
