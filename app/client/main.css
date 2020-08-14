@@ -8,3 +8,10 @@ body {
 .player-form {
 
 }
+.business__container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.business {
+  flex-basis: 50%;
+}

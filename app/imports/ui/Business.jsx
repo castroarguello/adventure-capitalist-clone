@@ -10,53 +10,66 @@ export const Business = ({ player, type }) => {
     count: BusinessCollection.find({ type: type.id, player: player._id }).count(),
   }));
 
-  const { profit } = useTracker(() => ({
+  // Calculate upgrade cost.
+  const upgradeCost = () => {
+    return count ? type.profit * business.level ^ type.upgradeRate : Infinity;
+  }
+
+  const { canBuyFirst, canUpgrade, profit } = useTracker(() => ({
     profit: (business ? business.level : 1) * type.profit,
+    canBuyFirst: player.cash < type.initialCost,
+    canUpgrade: player.cash < upgradeCost(),
   }));
 
   console.log(business, profit);
 
+  // Call back-end method to run a business.
   const runBusiness = () => {
     Meteor.call('business.run', player, type, business);
   }
 
+  // Call back-end method to upgrade a business.
   const upgradeBusiness = () => {
     Meteor.call('business.upgrade', type.id, player._id);
   };
 
-  // Calculate upgrade cost.
-  const upgradeCost = () => {
-    return business ? type.profit * business.level ^ type.upgradeRate : Infinity;
-  }
-
   const RenderButtons = () => {
-    let canUpgrade = player.cash > upgradeCost();
-    let canBuy = count ? true : player.cash > type.initialCost;
-    let buyProps = {};
-    let runProps = {
-      disabled: count ? false : true,
+    // Disable buy / upgrade if not enough cash.
+    let buyProps = {
+      disabled: count ? canUpgrade : canBuyFirst,
     };
+    let upgradeProps = {
+      disabled: count ? canUpgrade : canBuyFirst,
+    };
+    console.log('cash', player.cash, 'initialCost', type.initialCost);
+    // Disable business run if empty.
+    if (count) {
+      return (<button {...upgradeProps} className="btn btn-info" type="button" onClick={(e) => upgradeBusiness()}>Upgrade {upgradeCost()}</button>);
+    } else {
+      return (<button {...buyProps} className="btn btn-info" type="button" onClick={(e) => upgradeBusiness()}>Buy</button>);
+    }
+  };
 
-    return (
-      <div className="card-body">
-        <button className="btn btn-info" type="button" onClick={(e) => upgradeBusiness()}>{count ? 'Upgrade' : 'Buy' }</button>
-        <button {...runProps} className="btn btn-success" type="button" onClick={(e) => runBusiness()}>Run</button>
-      </div>
-    );
+  let runProps = {
+    disabled: count ? false : true,
   };
 
   return (
-    <div className="business">
-      Business - {type.name} ({count ? business.level: 0})
-          <div className="card-body">
-            <span target="_blank">{type.name} ($ {profit})</span>
+    <div className="card col-md-6 business">
+      <h3>{type.name} ({count ? business.level: 0}) [{type.duration}] - ${ count ? upgradeCost() : type.initialCost }</h3>
+      <div className="card-body">
+        <span target="_blank">{type.name} ($ {profit})</span>
 
-            <div className="progress">
-              <div className="progress-bar bg-success" role="progressbar"></div>
-            </div>
-          </div>
+        <div className="progress">
+          <div className="progress-bar bg-success" role="progressbar"></div>
+        </div>
+      </div>
 
-          <RenderButtons />
+      
+      <div className="card-body">
+        <RenderButtons />
+        <button {...runProps} className="btn btn-success" type="button" onClick={(e) => runBusiness()}>Run</button>
+      </div>
     </div>
   );
 };
