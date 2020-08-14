@@ -10,13 +10,14 @@ export const Business = ({ player, type }) => {
     count: BusinessCollection.find({ type: type.id, player: player._id }).count(),
   }));
 
-  console.log(business);
+  const { profit } = useTracker(() => ({
+    profit: (business ? business.level : 1) * type.profit,
+  }));
+
+  console.log(business, profit);
 
   const runBusiness = () => {
-    // const business = BusinessCollection.find({ type: type.id, player: player._id }).fetch();
-    // const businesType = TypesCollection.find({id: type});
-    console.log('runBusiness', business);
-    console.log('type', type);
+    Meteor.call('business.run', player, profit);
   }
 
   const upgradeBusiness = () => {
@@ -27,7 +28,7 @@ export const Business = ({ player, type }) => {
     <div className="business">
       Business - {type.name} ({count ? business.level: 0})
           <div className="card-body">
-            <span target="_blank">{type.name} ($ {type.profit})</span>
+            <span target="_blank">{type.name} ($ {profit})</span>
 
             <div className="progress">
               <div className="progress-bar bg-success" role="progressbar"></div>

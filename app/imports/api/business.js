@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { PlayersCollection } from './players';
  
 export const BusinessCollection = new Mongo.Collection('business');
 
@@ -17,8 +18,17 @@ Meteor.methods({
       updatedAt: new Date().getTime(),
     }
 
-    console.log(business);
     BusinessCollection.upsert(selector, modifier);
+  },
+
+  'business.run'(player, profit) {
+    const selector = { _id: player._id };
+    const updated = PlayersCollection.find(selector, { sort: { createdAt: -1}}).fetch()[0];
+
+    updated.cash = updated.cash + profit;
+    updated.updatedAt = new Date().getTime();
+
+    PlayersCollection.upsert(selector, updated);
   },
  
 });
