@@ -3,6 +3,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { TypesCollection } from '../api/types';
 import { PlayersCollection } from '../api/players';
 import { Player } from './Player';
+import { Manager } from './Manager';
 
 export const Info = () => {
 
@@ -44,6 +45,8 @@ export const Info = () => {
       )}
 
       <RenderPlayer />
+
+      <Manager />
 
     </div>
   );

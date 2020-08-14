@@ -10,19 +10,15 @@ Meteor.methods({
     const selector = { type: typeId, player: playerId };
     const business = BusinessCollection.find(selector, { sort: { createdAt: -1}}).fetch()[0];
 
-    const level = business ? business.level + 1 : 1;
-    const modifier = {
-      type: typeId,
-      player: playerId,
-      level: level,
-      updatedAt: new Date().getTime(),
-    }
+    business.level++;
+    business.updatedAt = new Date().getTime();
 
-    BusinessCollection.upsert(selector, modifier);
+    BusinessCollection.upsert(selector, business);
   },
 
   'business.run'(player, type, business) {
     const selector = { _id: player._id };
+    // Obtain latest player.
     const updated = PlayersCollection.find(selector, { sort: { createdAt: -1}}).fetch()[0];
     const profit = type.profit * business.level;
     updated.cash = updated.cash + profit;

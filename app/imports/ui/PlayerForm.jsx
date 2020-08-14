@@ -13,13 +13,11 @@ export const PlayerForm = ({ player }) => {
   return (
     <form className="player-form">
       <h2>My Game</h2>
-      {types.map(
-        type => <div className="card" key={type.id}>
-
-          <Business player={player} type={type} />
-
-        </div>
-      )}
+      <div className="business__container">
+        {types.map(
+          type => <Business player={player} type={type} key={type.id} />
+        )}
+      </div>
  
     </form>
   );

@@ -17,11 +17,9 @@ export const Business = ({ player, type }) => {
 
   const { canBuyFirst, canUpgrade, profit } = useTracker(() => ({
     profit: (business ? business.level : 1) * type.profit,
-    canBuyFirst: player.cash < type.initialCost,
+    canBuyFirst: player.cash < type.purchase,
     canUpgrade: player.cash < upgradeCost(),
   }));
-
-  console.log(business, profit);
 
   // Call back-end method to run a business.
   const runBusiness = () => {
@@ -34,15 +32,14 @@ export const Business = ({ player, type }) => {
   };
 
   const RenderButtons = () => {
-    // Disable buy / upgrade if not enough cash.
     let buyProps = {
       disabled: count ? canUpgrade : canBuyFirst,
     };
+
     let upgradeProps = {
       disabled: count ? canUpgrade : canBuyFirst,
     };
-    console.log('cash', player.cash, 'initialCost', type.initialCost);
-    // Disable business run if empty.
+
     if (count) {
       return (<button {...upgradeProps} className="btn btn-info" type="button" onClick={(e) => upgradeBusiness()}>Upgrade {upgradeCost()}</button>);
     } else {
@@ -56,7 +53,7 @@ export const Business = ({ player, type }) => {
 
   return (
     <div className="card col-md-6 business">
-      <h3>{type.name} ({count ? business.level: 0}) [{type.duration}] - ${ count ? upgradeCost() : type.initialCost }</h3>
+      <h3>{type.name} ({count ? business.level: 0}) [{type.duration}] - ${ count ? upgradeCost() : type.purchase }</h3>
       <div className="card-body">
         <span target="_blank">{type.name} ($ {profit})</span>
 
