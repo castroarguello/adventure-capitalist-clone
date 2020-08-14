@@ -17,11 +17,32 @@ export const Business = ({ player, type }) => {
   console.log(business, profit);
 
   const runBusiness = () => {
-    Meteor.call('business.run', player, profit);
+    Meteor.call('business.run', player, type, business);
   }
 
   const upgradeBusiness = () => {
-    Meteor.call('business.insert', type.id, player._id);
+    Meteor.call('business.upgrade', type.id, player._id);
+  };
+
+  // Calculate upgrade cost.
+  const upgradeCost = () => {
+    return business ? type.profit * business.level ^ type.upgradeRate : Infinity;
+  }
+
+  const RenderButtons = () => {
+    let canUpgrade = player.cash > upgradeCost();
+    let canBuy = count ? true : player.cash > type.initialCost;
+    let buyProps = {};
+    let runProps = {
+      disabled: count ? false : true,
+    };
+
+    return (
+      <div className="card-body">
+        <button className="btn btn-info" type="button" onClick={(e) => upgradeBusiness()}>{count ? 'Upgrade' : 'Buy' }</button>
+        <button {...runProps} className="btn btn-success" type="button" onClick={(e) => runBusiness()}>Run</button>
+      </div>
+    );
   };
 
   return (
@@ -33,13 +54,9 @@ export const Business = ({ player, type }) => {
             <div className="progress">
               <div className="progress-bar bg-success" role="progressbar"></div>
             </div>
-
           </div>
 
-          <div className="card-body">
-            <button className="btn btn-info" type="button" onClick={(e) => upgradeBusiness()}>{count ? 'Upgrade' : 'Buy' }</button>
-            <button className="btn btn-success" type="button" onClick={(e) => runBusiness()}>Run</button>
-          </div>
+          <RenderButtons />
     </div>
   );
 };
