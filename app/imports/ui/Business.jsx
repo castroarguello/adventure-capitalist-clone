@@ -85,7 +85,7 @@ export const Business = ({ player, type }) => {
         <div className="card border-dark mb-3">
           <div className="card-header">
             <span className="mr-3">{ type.name}</span>
-            <span className="badge badge-secondary">{ business.level }</span>
+            <span className="badge badge-secondary float-right">{ business.level }</span>
           </div>
           <div className="card-body">
             <div className="card-text">
@@ -101,8 +101,9 @@ export const Business = ({ player, type }) => {
               </button>
             </div>
             <div className="card-text">
-              <button {...upgradeProps} className="btn btn-info mr-1 mb-1" type="button" onClick={(e) => upgradeBusiness(business)}>
-                Buy {business.upgradeCost}
+              <button {...upgradeProps} className="button--upgrade btn btn-info mr-1 mb-1" type="button" onClick={(e) => upgradeBusiness(business)}>
+                <span className="text-left">Buy</span>  <span className="text-right">{business.upgradeCost}</span>
+                <span className="text-left"> [x {player.upgradeBatch}] </span>
               </button>
             </div>
           </div>
@@ -128,7 +129,7 @@ export const Business = ({ player, type }) => {
   };
 
   return (
-    <div className="col-md-6 business">
+    <div className="col-md-3 business">
       <RenderCards />
     </div>
   );

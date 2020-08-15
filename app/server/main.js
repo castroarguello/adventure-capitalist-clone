@@ -21,13 +21,6 @@ function insertPlayer(player) {
 
 Meteor.startup(() => {
 
-  if (PlayersCollection.find().count() === 0) {
-    [
-      { id: Random.id, name:'Ramiro', cash: 4, upgradeBatch: 1, lastConnection: new Date() },
-      { id: Random.id, name:'Anonymous', cash: 4, upgradeBatch: 1, lastConnection: new Date() },
-    ].forEach(insertPlayer);
-  }
-
   // If the Types collection is empty, add some data.
   if (TypesCollection.find().count() === 0) {
     [

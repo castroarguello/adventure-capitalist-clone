@@ -15,3 +15,11 @@ body {
 .business {
   flex-basis: 50%;
 }
+.button--upgrade {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.button--upgrade span {
+  flex-basis: 50%;
+}

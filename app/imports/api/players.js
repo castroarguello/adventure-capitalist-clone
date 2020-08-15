@@ -18,4 +18,22 @@ Meteor.methods({
     PlayersCollection.upsert({ _id: playerId }, player);
   },
  
+  'players.loadPlayer'(playerId) {
+    const player = PlayersCollection.find({ _id: playerId }).fetch()[0];
+
+    if (!player) {
+      const newPlayer = {
+        _id: playerId,
+        name: 'Player1',
+        cash: 4,
+        lastConnection: new Date().getTime(),
+        managers: [],
+        upgradeBatch: 1,
+      }
+
+      PlayersCollection.upsert({ _id: playerId }, newPlayer);
+    }
+
+  },
+ 
 });

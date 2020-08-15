@@ -19,7 +19,6 @@ export const Player = ({ player }) => {
   return (
     <div className="player">
       <div className="float-right"><button type="button" className="btn btn-warning" onClick={changeBatch}>Buy {batch} </button></div>
-      <h2>Player: {player.name}</h2>
       <h3>$ {player.cash}</h3>
 
       <div className="business__container row">
