@@ -23,7 +23,9 @@ export const Business = ({ player, type }) => {
 
   // Call back-end method to run a business.
   const runBusiness = () => {
-    Meteor.call('business.run', player._id, type.id, business._id);
+    Meteor.setTimeout(() => {
+      Meteor.call('business.run', player._id, type.id, business._id);
+    }, type.duration * 1000);
   }
 
   // Call back-end method to upgrade a business.
@@ -64,10 +66,11 @@ export const Business = ({ player, type }) => {
               <div className="progress-bar bg-success" role="progressbar"></div>
             </div>
             <div className="card-text">
-              <button className="btn btn-success" type="button" onClick={(e) => runBusiness()}>Run</button>
+              <button className="btn btn-success mr-1 mb-1" type="button" onClick={(e) => runBusiness()}>Run</button>
+              <button className="btn btn-secondary mr-1 mb-1" type="button" disabled="disabled">{ type.duration }</button>
             </div>
             <div className="card-text">
-              <button {...upgradeProps} className="btn btn-info" type="button" onClick={(e) => upgradeBusiness(business)}>
+              <button {...upgradeProps} className="btn btn-info mr-1 mb-1" type="button" onClick={(e) => upgradeBusiness(business)}>
                 Buy {business.upgradeCost}
               </button>
             </div>
