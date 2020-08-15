@@ -16,6 +16,9 @@ export const Business = ({ player, type }) => {
     canUpgrade: business ? player.cash >= business.upgradeCost : false,
   }));
 
+  let [timer, setTimer] = useState(type.duration);
+  let [running, setRunning] = useState(false);
+
   // Call back-end method to buy a business.
   const buyBusiness = () => {
     Meteor.call('business.buy', player._id, type.id);
@@ -23,8 +26,23 @@ export const Business = ({ player, type }) => {
 
   // Call back-end method to run a business.
   const runBusiness = () => {
+    setRunning(true);
+    timer = type.duration;
+
+    const interval = Meteor.setInterval(() => {
+      if (timer -1 === 0) {
+        setTimer(type.duration);
+      } else {
+        setTimer(--timer);
+      }
+    }, 1000);
+
     Meteor.setTimeout(() => {
       Meteor.call('business.run', player._id, type.id, business._id);
+
+      Meteor.clearInterval(interval);
+      setTimer(type.duration);
+      setRunning(false);
     }, type.duration * 1000);
   }
 
@@ -46,6 +64,9 @@ export const Business = ({ player, type }) => {
 
   const RenderCards = () => {
     if (business) {
+      let runProps = {
+        disabled: running,
+      };
       let upgradeProps = {
         disabled: !canUpgrade,
       };
@@ -66,8 +87,8 @@ export const Business = ({ player, type }) => {
               <div className="progress-bar bg-success" role="progressbar"></div>
             </div>
             <div className="card-text">
-              <button className="btn btn-success mr-1 mb-1" type="button" onClick={(e) => runBusiness()}>Run</button>
-              <button className="btn btn-secondary mr-1 mb-1" type="button" disabled="disabled">{ type.duration }</button>
+              <button {...runProps} className="btn btn-success mr-1 mb-1" type="button" onClick={(e) => runBusiness()}>Run</button>
+              <button className="btn btn-secondary mr-1 mb-1" type="button" disabled="disabled">{ timer }</button>
             </div>
             <div className="card-text">
               <button {...upgradeProps} className="btn btn-info mr-1 mb-1" type="button" onClick={(e) => upgradeBusiness(business)}>
