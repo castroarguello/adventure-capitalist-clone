@@ -3,11 +3,6 @@ import { PlayerForm } from './PlayerForm';
 
 export const Player = ({ player }) => {
   let name;
-  const [cash, setCounter] = useState(0);
-
-  const increment = () => {
-    setCounter(counter + 1);
-  };
 
   return (
     <div className="player">

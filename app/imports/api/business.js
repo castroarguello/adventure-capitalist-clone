@@ -1,30 +1,71 @@
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { PlayersCollection } from './players';
+import { TypesCollection } from '/imports/api/types';
  
 export const BusinessCollection = new Mongo.Collection('business');
 
 Meteor.methods({
-  'business.upgrade'(typeId, playerId) {
-
-    const selector = { type: typeId, player: playerId };
-    const business = BusinessCollection.find(selector, { sort: { createdAt: -1}}).fetch()[0];
-
-    business.level++;
-    business.updatedAt = new Date().getTime();
-
-    BusinessCollection.upsert(selector, business);
+  'business.buy'(playerId, typeId) {
+    const type = TypesCollection.find({ id: typeId }).fetch()[0];
+    const player = PlayersCollection.find({ _id: playerId }).fetch()[0];
+    const upgradeCost = Math.pow(type.upgradeRate, 2) * type.purchase;
+    const business = {
+      level: 1,
+      player: playerId,
+      profit: type.profit,
+      timestamp: new Date().getTime(),
+      type: typeId,
+      upgradeCost: upgradeCost,
+    };
+    console.log(business);
+    BusinessCollection.insert(business);
+    // Extract purchase cost.
+    player.cash -= type.purchase;
+    PlayersCollection.update({ _id: playerId }, player);
   },
 
-  'business.run'(player, type, business) {
-    const selector = { _id: player._id };
-    // Obtain latest player.
-    const updated = PlayersCollection.find(selector, { sort: { createdAt: -1}}).fetch()[0];
-    const profit = type.profit * business.level;
-    updated.cash = updated.cash + profit;
-    updated.updatedAt = new Date().getTime();
+  'business.upgrade'(playerId, typeId, businessId) {
+    const type = TypesCollection.find({ id: typeId }).fetch()[0];
+    const player = PlayersCollection.find({ _id: playerId }).fetch()[0];
 
-    PlayersCollection.upsert(selector, updated);
+    const business = BusinessCollection.find({ _id: businessId }).fetch()[0];
+
+    if (business) {
+      // Insert business with new level.
+      const upgradeCost = Math.pow(type.upgradeRate, business.level) * type.purchase;
+      const nextLevel = business.level + 1;
+      const newBusiness = {
+        level: nextLevel,
+        player: playerId,
+        profit: type.profit * business.level,
+        timestamp: new Date().getTime(),
+        type: typeId,
+        upgradeCost: upgradeCost,
+      };
+      console.log('business', business)
+      console.log('type', type)
+      console.log('newBusiness', newBusiness)
+      BusinessCollection.insert(newBusiness);
+
+      // Extract upgrade cost.
+      player.cash -= newBusiness.upgradeCost;
+      PlayersCollection.update({ _id: playerId }, player);
+    }
+
+  },
+
+  'business.run'(playerId, typeId, businessId) {
+    const type = TypesCollection.find({ id: typeId }).fetch()[0];
+    const business = BusinessCollection.find({ _id: businessId }).fetch()[0];
+    const player = PlayersCollection.find({ _id: playerId }).fetch()[0];
+
+    // Deposit business profit.
+    player.cash += business.profit;
+    console.log(player, business);
+    player.updatedAt = new Date().getTime();
+
+    PlayersCollection.upsert({ _id: playerId }, player);
   },
  
 });

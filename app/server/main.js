@@ -22,8 +22,8 @@ Meteor.startup(() => {
 
   if (PlayersCollection.find().count() === 0) {
     [
-      { id: Random.id, name:'Ramiro', cash: 0, upgradeBatch: 1, lastConnection: new Date() },
-      { id: Random.id, name:'Anonymous', cash: 0, upgradeBatch: 1, lastConnection: new Date() },
+      { id: Random.id, name:'Ramiro', cash: 4, upgradeBatch: 1, lastConnection: new Date() },
+      { id: Random.id, name:'Anonymous', cash: 4, upgradeBatch: 1, lastConnection: new Date() },
     ].forEach(insertPlayer);
   }
 
