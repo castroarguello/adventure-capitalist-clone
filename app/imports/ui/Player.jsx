@@ -6,14 +6,21 @@ import { Business } from './Business';
 export const Player = ({ player }) => {
   let name;
 
-  const types = useTracker(() => {
-    return TypesCollection.find().fetch();
-  });
+  const { types, batch } = useTracker(() => ({
+    types: TypesCollection.find().fetch(),
+    batch: isNaN(player.upgradeBatch) ? player.upgradeBatch : ' x ' + player.upgradeBatch,
+  }));
+
+  // Upgrade batch functionality.
+  const changeBatch = () => {
+    Meteor.call('players.switchBatch', player._id);
+  };
 
   return (
     <div className="player">
+      <div className="float-right"><button type="button" className="btn btn-warning" onClick={changeBatch}>Buy {batch} </button></div>
       <h2>Player: {player.name}</h2>
-      <p>Cash is: $ {player.cash}</p>
+      <h3>$ {player.cash}</h3>
 
       <div className="business__container row">
         {types.map(

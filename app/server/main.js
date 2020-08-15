@@ -15,6 +15,7 @@ function insertManager(manager) {
 }
 
 function insertPlayer(player) {
+  player.managers = [];
   PlayersCollection.insert(player);
 }
 

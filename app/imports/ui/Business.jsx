@@ -51,6 +51,17 @@ export const Business = ({ player, type }) => {
     Meteor.call('business.upgrade', player._id, type.id, business._id);
   };
 
+  const RenderSpinner = () => {
+    if (running) {
+      return (
+        <div className="spinner-border text-light" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      );
+    }
+    return '';
+  };
+
   const RenderBuyButton = () => {
     if (canBuy) {
       return (
@@ -78,17 +89,16 @@ export const Business = ({ player, type }) => {
           </div>
           <div className="card-body">
             <div className="card-text">
-              <span target="_blank">Profit: $ { business.profit }</span>
-            </div>
-            <div className="card-text">
-              Duration: {type.duration}s
+              <span target="_blank">Profit: $ </span>
             </div>
             <div className="progress">
               <div className="progress-bar bg-success" role="progressbar"></div>
             </div>
             <div className="card-text">
-              <button {...runProps} className="btn btn-success mr-1 mb-1" type="button" onClick={(e) => runBusiness()}>Run</button>
-              <button className="btn btn-secondary mr-1 mb-1" type="button" disabled="disabled">{ timer }</button>
+              <button {...runProps} className="btn btn-success mr-1 mb-1" type="button" onClick={(e) => runBusiness()}>Run { business.profit }</button>
+              <button className="btn btn-secondary mr-1 mb-1" type="button" disabled="disabled">{ timer }
+                <RenderSpinner />
+              </button>
             </div>
             <div className="card-text">
               <button {...upgradeProps} className="btn btn-info mr-1 mb-1" type="button" onClick={(e) => upgradeBusiness(business)}>
