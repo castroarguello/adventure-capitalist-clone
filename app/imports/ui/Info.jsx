@@ -21,13 +21,6 @@ export const Info = () => {
       currentPlayer: getCurrentPlayer()
     }));
 
-  const RenderPlayer = (props) => {
-    if (getCurrentPlayer()._id) {
-      return (<Player player={currentPlayer} />);
-    }
-    return '';
-  };
-
   return (
     <div>
       <h2>Business Types:</h2>
@@ -41,10 +34,9 @@ export const Info = () => {
       {players.map(
         player => <li key={player._id}>
           <a onClick={(e) => setCurrentPlayer(player)} >{player.name} ($ {player.cash})</a>
+          <Player player={player} />
         </li>
       )}
-
-      <RenderPlayer />
 
       <Manager />
 

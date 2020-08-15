@@ -32,7 +32,7 @@ export const Business = ({ player, type }) => {
   };
 
   const RenderBuyButton = () => {
-    console.log(canBuy)
+    console.log(canBuy, player.cash)
     if (canBuy) {
       return (
         <div className="card-body">
