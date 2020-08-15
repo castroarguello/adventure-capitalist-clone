@@ -5,11 +5,12 @@ import { BusinessCollection } from '/imports/api/business';
 
 export const Business = ({ player, type }) => {
 
-  const { business, count } = useTracker(() => ({
+  // Track business values.
+  const { business } = useTracker(() => ({
     business: BusinessCollection.find({ type: type.id, player: player._id }, { sort: { timestamp: -1}}).fetch()[0],
-    count: BusinessCollection.find({ type: type.id, player: player._id }).count(),
   }));
 
+  // Track other values that use business.
   const { canBuy, canUpgrade, profit } = useTracker(() => ({
     profit: (business ? business.level : 1) * type.profit,
     canBuy: player.cash >= type.purchase,
@@ -38,8 +39,7 @@ export const Business = ({ player, type }) => {
     }, 1000);
 
     Meteor.setTimeout(() => {
-      Meteor.call('business.run', player._id, type.id, business._id);
-
+      Meteor.call('business.run', player._id, type.id);
       Meteor.clearInterval(interval);
       setTimer(type.duration);
       setRunning(false);
@@ -108,7 +108,9 @@ export const Business = ({ player, type }) => {
           </div>
       </div>
       );
+
     } else {
+
       return (
         <div className="card border-dark mb-3">
           <div className="card-header">{type.name} </div>

@@ -38,7 +38,7 @@ Meteor.methods({
       const newBusiness = {
         level: nextLevel,
         player: playerId,
-        profit: type.profit * business.level,
+        profit: type.profit * nextLevel,
         timestamp: new Date().getTime(),
         type: typeId,
         upgradeCost: upgradeCost,
@@ -53,9 +53,9 @@ Meteor.methods({
     }
   },
 
-  'business.run'(playerId, typeId, businessId) {
+  'business.run'(playerId, typeId) {
     const type = TypesCollection.find({ id: typeId }).fetch()[0];
-    const business = BusinessCollection.find({ _id: businessId }).fetch()[0];
+    const business = BusinessCollection.find({ type: typeId, player: playerId }, { sort: { timestamp: -1}}).fetch()[0];
     const player = PlayersCollection.find({ _id: playerId }).fetch()[0];
 
     // Deposit business profit.

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Hello } from './Hello.jsx';
 import { Game } from './Game.jsx';
 import { Player } from './Player.jsx';
 

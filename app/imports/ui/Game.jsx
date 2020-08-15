@@ -18,8 +18,6 @@ export const Game = () => {
           <Manager player={player} />
         </div>
       )}
-
-
     </div>
   );
 };
