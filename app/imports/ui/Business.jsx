@@ -32,7 +32,6 @@ export const Business = ({ player, type }) => {
   };
 
   const RenderBuyButton = () => {
-    console.log(canBuy, player.cash)
     if (canBuy) {
       return (
         <div className="card-body">
@@ -40,39 +39,52 @@ export const Business = ({ player, type }) => {
         </div>
       );
     }
-    return ('');
+    return '';
   };
 
   const RenderCards = () => {
     if (business) {
-      console.log(business);
       let upgradeProps = {
-          disabled: !canUpgrade,
-        };
+        disabled: !canUpgrade,
+      };
       return (
-        <div className="card-body">
-          <span target="_blank">Profit: ($ { business.profit })</span>
-          <div className="progress">
-            <div className="progress-bar bg-success" role="progressbar"></div>
+        <div className="card border-dark mb-3">
+          <div className="card-header">
+            <span className="mr-3">{ type.name}</span>
+            <span className="badge badge-secondary">{ business.level }</span>
           </div>
           <div className="card-body">
-            <button className="btn btn-success" type="button" onClick={(e) => runBusiness()}>Run</button>
+            <div className="card-text">
+              <span target="_blank">Profit: $ { business.profit }</span>
+            </div>
+            <div className="card-text">
+              Duration: {type.duration}s
+            </div>
+            <div className="progress">
+              <div className="progress-bar bg-success" role="progressbar"></div>
+            </div>
+            <div className="card-text">
+              <button className="btn btn-success" type="button" onClick={(e) => runBusiness()}>Run</button>
+            </div>
+            <div className="card-text">
+              <button {...upgradeProps} className="btn btn-info" type="button" onClick={(e) => upgradeBusiness(business)}>
+                Buy {business.upgradeCost}
+              </button>
+            </div>
           </div>
-          <div className="card-body">
-            <button {...upgradeProps} className="btn btn-info" type="button" onClick={(e) => upgradeBusiness(business)}>Upgrade {business.upgradeCost}</button>
-          </div>
-        </div>
+      </div>
       );
     } else {
       return (
-        <div className="card-body">
-          <div>level: { type.purchase } </div>
-          <h3>{type.name} [{type.duration}s] - ${ type.purchase }</h3>
+        <div className="card border-dark mb-3">
+          <div className="card-header">{type.name} </div>
           <div className="card-body">
-            <span target="_blank">{type.name} ($ { type.profit })</span>
+            <div className="card-title">{type.name} </div>
+            <div className="card-text">
+              <span target="_blank">($ { type.purchase })</span>
+            </div>
+            <RenderBuyButton />
           </div>
-          canBuy: {canBuy ? 'true' : 'false'}
-          <RenderBuyButton />
         </div>
       );
 
@@ -80,14 +92,8 @@ export const Business = ({ player, type }) => {
   };
 
   return (
-    <div className="card col-md-6 business">
-
-      <h3>{type.name} [{type.duration}] </h3>
-
+    <div className="col-md-6 business">
       <RenderCards />
-      canBuy: {canBuy ? 'true' : 'false'} = 
-      cash: {player.cash}
-      
     </div>
   );
 };

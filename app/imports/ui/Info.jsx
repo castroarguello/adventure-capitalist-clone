@@ -23,22 +23,13 @@ export const Info = () => {
 
   return (
     <div>
-      <h2>Business Types:</h2>
-      <ul>{types.map(
-        type => <li key={type.id}>
-          <span target="_blank">{type.name} ($ {type.profit})</span>
-        </li>
-      )}</ul>
-
-      <h2>Players ({count}):</h2>
       {players.map(
-        player => <li key={player._id}>
-          <a onClick={(e) => setCurrentPlayer(player)} >{player.name} ($ {player.cash})</a>
+        player => <div key={player._id}>
           <Player player={player} />
-        </li>
+          <Manager player={player} />
+        </div>
       )}
 
-      <Manager />
 
     </div>
   );

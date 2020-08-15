@@ -18,8 +18,9 @@ Meteor.methods({
       type: typeId,
       upgradeCost: upgradeCost,
     };
-    console.log(business);
+      // Insert level 1 business.
     BusinessCollection.insert(business);
+
     // Extract purchase cost.
     player.cash -= type.purchase;
     PlayersCollection.update({ _id: playerId }, player);
@@ -32,7 +33,6 @@ Meteor.methods({
     const business = BusinessCollection.find({ _id: businessId }).fetch()[0];
 
     if (business) {
-      // Insert business with new level.
       const upgradeCost = Math.pow(type.upgradeRate, business.level) * type.purchase;
       const nextLevel = business.level + 1;
       const newBusiness = {
@@ -43,16 +43,14 @@ Meteor.methods({
         type: typeId,
         upgradeCost: upgradeCost,
       };
-      console.log('business', business)
-      console.log('type', type)
-      console.log('newBusiness', newBusiness)
+      // Insert business with new level.
       BusinessCollection.insert(newBusiness);
 
       // Extract upgrade cost.
       player.cash -= newBusiness.upgradeCost;
+      player.updatedAt = new Date().getTime();
       PlayersCollection.update({ _id: playerId }, player);
     }
-
   },
 
   'business.run'(playerId, typeId, businessId) {
@@ -62,9 +60,7 @@ Meteor.methods({
 
     // Deposit business profit.
     player.cash += business.profit;
-    console.log(player, business);
     player.updatedAt = new Date().getTime();
-
     PlayersCollection.upsert({ _id: playerId }, player);
   },
  
