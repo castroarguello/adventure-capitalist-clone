@@ -24,7 +24,7 @@ Meteor.startup(() => {
   // If the Types collection is empty, add some data.
   if (TypesCollection.find().count() === 0) {
     [
-      { id:'lemonade', name:'Lemonade Stand', upgradeRate: 1.07, profit: 1, duration: 1, purchase: 4 },
+      { id:'lemonade', name:'Lemonade Stand', upgradeRate: 1.07, profit: 1, duration: 1, purchase: 3.738317757 },
       { id:'newspaper', name:'Paper Route', upgradeRate: 1.15, profit: 60, duration: 3, purchase: 60 },
       { id:'carwash', name:'Car Wash', upgradeRate: 1.14, profit: 540, duration: 6, purchase: 720 },
       { id:'pizza', name:'Pizza Deliveries', upgradeRate: 1.13, profit: 4320, duration: 12, purchase: 8640 },

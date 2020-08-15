@@ -7,8 +7,13 @@ export const Business = ({ player, type }) => {
 
   // Track business values.
   const { business } = useTracker(() => ({
-    business: BusinessCollection.find({ type: type.id, player: player._id }, { sort: { timestamp: -1}}).fetch()[0],
+    business: BusinessCollection.find({ type: type.id, player: player._id }).fetch()[0],
   }));
+
+  // Create initial business.
+  if (type.id === 'lemonade' && !business) {
+    Meteor.call('business.buy', player._id, 'lemonade');
+  }
 
   // Track other values that use business.
   const { canBuy, canUpgrade, profit } = useTracker(() => ({
@@ -38,12 +43,13 @@ export const Business = ({ player, type }) => {
       }
     }, 1000);
 
+    let duration = type.duration * 1000 - 500;
     Meteor.setTimeout(() => {
       Meteor.call('business.run', player._id, type.id);
       Meteor.clearInterval(interval);
       setTimer(type.duration);
       setRunning(false);
-    }, type.duration * 1000);
+    }, duration);
   }
 
   // Call back-end method to upgrade a business.
@@ -88,9 +94,6 @@ export const Business = ({ player, type }) => {
             <span className="badge badge-secondary float-right">{ business.level }</span>
           </div>
           <div className="card-body">
-            <div className="card-text">
-              <span target="_blank">Profit: $ </span>
-            </div>
             <div className="progress">
               <div className="progress-bar bg-success" role="progressbar"></div>
             </div>

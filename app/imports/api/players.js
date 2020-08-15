@@ -25,7 +25,7 @@ Meteor.methods({
       const newPlayer = {
         _id: playerId,
         name: 'Player1',
-        cash: 4,
+        cash: 0,
         lastConnection: new Date().getTime(),
         managers: [],
         upgradeBatch: 1,
