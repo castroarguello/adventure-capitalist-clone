@@ -10,20 +10,19 @@ export const Manager = ({ player }) => {
     types: TypesCollection.find().fetch(),
   }));
 
-
   const RenderHireButton = ({ manager, player }) => {
-    // Call back-end method to upgrade a business.
+    // Call back-end method to hire a manager.
     const hireManager = () => {
       Meteor.call('manager.hire', manager._id, player._id);
     };
   
     let enoughCash = (player.cash >= manager.hire);
-    let hired = player.managers.indexOf(manager._id) >= 0;
+    let hired = player.managers.indexOf(manager.type) >= 0;
     let hireProps = {
       disabled: !enoughCash || hired,
     };
     return (
-      <button {...hireProps} className="btn btn-info" type="button" onClick={(e) => hireManager()}>Hire</button>
+      <button {...hireProps} className="btn btn-info" type="button" onClick={(e) => hireManager()}>Hire{hired ? 'd' : ''}</button>
     );
   };
 

@@ -79,6 +79,17 @@ export const Business = ({ player, type }) => {
     return '';
   };
 
+  const RenderManaged = () => {
+    if (player.managers.indexOf(business.type) < 0) {
+      return '';
+    }
+    return (
+      <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path fillRule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+      </svg>
+    );
+  };
+
   const RenderCards = () => {
     if (business) {
       let runProps = {
@@ -92,6 +103,8 @@ export const Business = ({ player, type }) => {
           <div className="card-header">
             <span className="mr-3">{ type.name}</span>
             <span className="badge badge-secondary float-right">{ business.level }</span>
+            <RenderManaged />
+
           </div>
           <div className="card-body">
             <div className="progress">
