@@ -6,7 +6,10 @@ import { Business } from './Business';
 export const Player = ({ player }) => {
   let name;
 
-  const { types, batch } = useTracker(() => ({
+  const numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  const { types, batch, cash } = useTracker(() => ({
+    cash: numberWithCommas(player.cash),
     types: TypesCollection.find().fetch(),
     batch: isNaN(player.upgradeBatch) ? player.upgradeBatch : ' x ' + player.upgradeBatch,
   }));
@@ -19,7 +22,7 @@ export const Player = ({ player }) => {
   return (
     <div className="player">
       <div className="float-right"><button type="button" className="btn btn-warning" onClick={changeBatch}>Buy {batch} </button></div>
-      <h3>$ {player._id ? player.cash : ''}</h3>
+      <h3>$ {player._id ? cash : ''}</h3>
 
       <div className="business__container row">
         {types.map(
