@@ -19,6 +19,15 @@ Meteor.methods({
     PlayersCollection.upsert({ _id: playerId }, player);
   },
  
+  'players.increaseProfit'(playerId, profit) {
+    const player = PlayersCollection.find({ _id: playerId }).fetch()[0];
+    if (player) {
+      console.log('increaseProfit', player);
+      player.cash += +profit;
+      PlayersCollection.upsert({ _id: playerId }, player);
+    }
+  },
+ 
   'players.loadPlayer'(playerId) {
     const player = PlayersCollection.find({ _id: playerId }).fetch()[0];
 

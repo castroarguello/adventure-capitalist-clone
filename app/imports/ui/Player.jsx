@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
+import { Session } from 'meteor/session';
 import { TypesCollection } from '/imports/api/types';
 import { Business } from './Business';
 
@@ -22,7 +23,7 @@ export const Player = ({ player }) => {
   return (
     <div className="player">
       <div className="float-right"><button type="button" className="btn btn-warning" onClick={changeBatch}>Buy {batch} </button></div>
-      <h3>$ {player._id ? player.cash : ''}</h3>
+      <h3>$ {player._id ? cash : ''}</h3>
 
       <div className="business__container row">
         {types.map(

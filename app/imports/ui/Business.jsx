@@ -16,9 +16,10 @@ export const Business = ({ player, type }) => {
     canBuy: player.cash >= type.purchase,
     canUpgrade: business ? player.cash >= business.upgradeCost : false,
   }));
-
+  const managed = !!(player.managers.indexOf(type.id) >= 0);
+  console.log(type.id, 'managed: ', managed, player.managers)
   let [timer, setTimer] = useState(type.duration);
-  let [running, setRunning] = useState(false);
+  let [running, setRunning] = useState(managed);
 
   // Call back-end method to buy a business.
   const buyBusiness = () => {
@@ -107,7 +108,8 @@ export const Business = ({ player, type }) => {
             </div>
             <div className="card-text">
               <button {...runProps} className="btn btn-success mr-1 mb-1" type="button" onClick={(e) => runBusiness()}>Run { business.profit }</button>
-              <button className="btn btn-secondary mr-1 mb-1" type="button" disabled="disabled">{ timer }
+              <button className="btn btn-secondary mr-1 mb-1" type="button" disabled="disabled">
+                { managed ? '' : timer }
                 <RenderSpinner />
               </button>
             </div>
