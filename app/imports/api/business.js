@@ -9,16 +9,19 @@ Meteor.methods({
   'business.buy'(playerId, typeId) {
     const type = TypesCollection.find({ id: typeId }).fetch()[0];
     const player = PlayersCollection.find({ _id: playerId }).fetch()[0];
-    const upgradeCost = type.upgradeRate * type.purchase;
+    if (!type || !player) {
+      return;
+    }
 
+    const upgradeCost = type.upgradeRate * type.purchase;
     // Extract purchase cost except the lemonade stand.
     const cash = +(player.cash - type.purchase);
-    if (cash >= 0) {
-      if (typeId != 'lemonade') {
+      if (typeId != 'lemonade' && cash > 0) {
         player.cash = +cash.toFixed(2);
         PlayersCollection.update({ _id: playerId }, player);
       }
 
+      if (typeId == 'lemonade' || cash > 0) {
       const business = {
         level: 1,
         player: playerId,
@@ -27,7 +30,8 @@ Meteor.methods({
         type: typeId,
         upgradeCost: upgradeCost.toFixed(2),
       };
-        // Insert level 1 business.
+
+      // Insert level 1 business.
       BusinessCollection.insert(business);
     }
   },

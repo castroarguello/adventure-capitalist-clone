@@ -1,10 +1,12 @@
 import React, { useState} from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { PlayersCollection } from '../api/players';
+import { TypesCollection } from '../api/types';
 import { Player } from './Player';
 import { Manager } from './Manager';
 import { Session } from 'meteor/session';
 import { Random } from 'meteor/random';
+import { Tracker } from 'meteor/tracker';
 
 // Create playerId if it is not stored on persistent session.
 if (!Session.get('playerId')) {
@@ -24,7 +26,6 @@ const RenderPlayer = ({ player }) => {
   }
   return '';
 };
-
 
 export const Game = () => {
 

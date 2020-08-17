@@ -1,4 +1,5 @@
 import { Mongo } from 'meteor/mongo';
+import { BusinessCollection } from './business';
 
 export const PlayersCollection = new Mongo.Collection('players');
 
@@ -24,14 +25,14 @@ Meteor.methods({
     if (!player) {
       const newPlayer = {
         _id: playerId,
-        name: 'Player1',
+        name: 'Player',
         cash: 0,
         lastConnection: new Date().getTime(),
         managers: [],
         upgradeBatch: 1,
       }
-
       PlayersCollection.upsert({ _id: playerId }, newPlayer);
+      Meteor.call('business.buy', playerId, 'lemonade');
     }
 
   },

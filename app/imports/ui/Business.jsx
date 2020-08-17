@@ -10,11 +10,6 @@ export const Business = ({ player, type }) => {
     business: BusinessCollection.find({ type: type.id, player: player._id }).fetch()[0],
   }));
 
-  // Create initial business.
-  if (type.id === 'lemonade' && !business) {
-    Meteor.call('business.buy', player._id, 'lemonade');
-  }
-
   // Track other values that use business.
   const { canBuy, canUpgrade, profit } = useTracker(() => ({
     profit: (business ? business.level : 1) * type.profit,
