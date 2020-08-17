@@ -1,4 +1,4 @@
-# [Game Sim](https://github.com/castroarguello/gamesim) &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/react)
+# [Game Sim](https://github.com/castroarguello/adventure-capitalist-clone) &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/react)
 
 ## Coding challenge
 
@@ -10,7 +10,13 @@ Meteor framework was selected for its scaffolding simplicity, because it provide
 
 The React library was selected because of its increasing market share.
 
+## Architectural concerns
+
+While the chosen architecture allows quick prototyping, it would probably be better to refactor into a more decoupled architecture, allowing the execution of the game in the UI without constant update to the server, for obvious performance reasons.
+
 Similar result could be achieved using a different, probably more decoupled stack such as a React UI communicating with REST endpoints mounted over an Express or Restify powered back-end.
+
+Another design concern that should be improved in future releases are the correct storage of games in current execution so the UI can display the remaining time accurately. 
 
 ## Features implemented
 
