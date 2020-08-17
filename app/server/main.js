@@ -33,7 +33,7 @@ Meteor.startup(() => {
       { id:'hockey', name:'Hockey Team', upgradeRate: 1.1, profit: 7464000, duration: 384, purchase: 14929920 },
       { id:'studio', name:'Movie Studio', upgradeRate: 1.09, profit: 89579000, duration: 1536, purchase: 179159040 },
       { id:'bank', name:'Bank', upgradeRate: 1.08, profit: 2321000000, duration: 6144, purchase: 2149908480 },
-      { id:'oil', name:'Oil Company', upgradeRate: 1.07, profit: 33817000000, duration: 24024, purchase: 25798901760 },
+      { id:'oil', name:'Oil Company', upgradeRate: 1.07, profit: 27604000000, duration: 36864, purchase: 25798901760 },
     ].forEach(insertType);
   }
 

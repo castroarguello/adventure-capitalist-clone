@@ -2,28 +2,34 @@ import React, { useState } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Player } from './Player';
 import { BusinessCollection } from '/imports/api/business';
+import { PlayersCollection } from '/imports/api/players';
 
-export const Business = ({ player, type }) => {
+export const Business = ({ playerId, type }) => {
 
   // Track business values.
-  const { business } = useTracker(() => ({
-    business: BusinessCollection.find({ type: type.id, player: player._id }).fetch()[0],
+  const { business, player } = useTracker(() => ({
+    business: BusinessCollection.find({ type: type.id, player: playerId }).fetch()[0],
+    player: PlayersCollection.find({ _id: playerId }).fetch()[0],
   }));
+
+  this.shouldComponentUpdate = (nextProps, nextState) => {
+    return false;
+  };
+
 
   // Track other values that use business.
   const { canBuy, canUpgrade, profit } = useTracker(() => ({
     profit: (business ? business.level : 1) * type.profit,
-    canBuy: player.cash >= type.purchase,
-    canUpgrade: business ? player.cash >= business.upgradeCost : false,
+    canBuy: player ? player.cash >= type.purchase : false,
+    canUpgrade: business && player ? player.cash >= business.upgradeCost : false,
   }));
-  const managed = !!(player.managers.indexOf(type.id) >= 0);
-  console.log(type.id, 'managed: ', managed, player.managers)
+  const managed = player ? !!(player.managers.indexOf(type.id) >= 0) : false;
   let [timer, setTimer] = useState(type.duration);
   let [running, setRunning] = useState(managed);
 
   // Call back-end method to buy a business.
   const buyBusiness = () => {
-    Meteor.call('business.buy', player._id, type.id);
+    Meteor.call('business.buy', playerId, type.id);
   }
 
   // Call back-end method to run a business.
@@ -41,7 +47,7 @@ export const Business = ({ player, type }) => {
 
     let duration = type.duration * 1000 - 500;
     Meteor.setTimeout(() => {
-      Meteor.call('business.run', player._id, type.id);
+      Meteor.call('business.run', playerId, type.id);
       Meteor.clearInterval(interval);
       setTimer(type.duration);
       setRunning(false);
@@ -50,13 +56,13 @@ export const Business = ({ player, type }) => {
 
   // Call back-end method to upgrade a business.
   const upgradeBusiness = () => {
-    Meteor.call('business.upgrade', player._id, type.id, business._id);
+    Meteor.call('business.upgrade', playerId, type.id, business._id);
   };
 
   const RenderSpinner = () => {
     if (running) {
       return (
-        <div className="spinner-border text-light" role="status">
+        <div className="spinner-border spinner-border-sm text-light" role="status">
           <span className="sr-only">Loading...</span>
         </div>
       );
