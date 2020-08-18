@@ -64,17 +64,6 @@ export const Business = ({ playerId, type }) => {
     return '';
   };
 
-  const RenderBuyButton = () => {
-    if (canBuy) {
-      return (
-        <div className="card-body">
-          <button className="btn btn-info" type="button" onClick={(e) => buyBusiness()}>Buy</button>
-        </div>
-      );
-    }
-    return '';
-  };
-
   const RenderManaged = () => {
     if (player.managers.indexOf(business.type) < 0) {
       return '';
@@ -103,9 +92,6 @@ export const Business = ({ playerId, type }) => {
 
           </div>
           <div className="card-body">
-            <div className="progress">
-              <div className="progress-bar bg-success" role="progressbar"></div>
-            </div>
             <div className="card-text">
               <button {...runProps} className="btn btn-success mr-1 mb-1" type="button" onClick={(e) => runBusiness()}>Run { business.profit }</button>
               <button className="btn btn-secondary mr-1 mb-1" type="button" disabled="disabled">
@@ -125,15 +111,20 @@ export const Business = ({ playerId, type }) => {
 
     } else {
 
+      const buyProps = {
+        disabled: !canBuy,
+        className: canBuy ? 'btn btn-info mb-1' : 'btn btn-secondary mb-1',
+      }
       return (
         <div className="card border-dark mb-3">
           <div className="card-header">{type.name} </div>
           <div className="card-body">
-            <div className="card-title">{type.name} </div>
             <div className="card-text">
-              <span target="_blank">($ { type.purchase })</span>
+              <button className="btn btn-secondary mb-1" disabled>$ { type.purchase }</button>
             </div>
-            <RenderBuyButton />
+            <div className="card-text">
+              <button {...buyProps} type="button" onClick={(e) => buyBusiness()}>Buy</button>
+            </div>
           </div>
         </div>
       );

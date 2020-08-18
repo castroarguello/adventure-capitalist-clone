@@ -20,9 +20,10 @@ export const Manager = ({ player }) => {
     let hired = player.managers.indexOf(manager.type) >= 0;
     let hireProps = {
       disabled: !enoughCash || hired,
+      className: !enoughCash || hired ? 'btn btn-secondary' : 'btn btn-info',
     };
     return (
-      <button {...hireProps} className="btn btn-info" type="button" onClick={(e) => hireManager()}>Hire{hired ? 'd' : ''}</button>
+      <button {...hireProps} type="button" onClick={(e) => hireManager()}>Hire{hired ? 'd' : ''}</button>
     );
   };
 

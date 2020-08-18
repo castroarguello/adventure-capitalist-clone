@@ -12,19 +12,17 @@ The React library was selected because of its increasing market share.
 
 ## Architectural concerns
 
-While the chosen architecture allows quick prototyping, it would probably be better to refactor into a more decoupled architecture, allowing the execution of the game in the UI without constantly updating to the server, for obvious performance reasons. 
+While the chosen architecture allows quick prototyping, it would probably be better to refactor into a more decoupled architecture, allowing the execution of the game in the UI without constantly updating to the server, for obvious performance reasons.
 
 There are also some issues with the reactive components when playing with managers: given that the player cash increases automatically, all business componets are rendered too often which sometimes leads to errors when trying to update unmounted components.
 
 Similar result could be achieved using a different, probably more decoupled stack such as a React UI communicating with REST endpoints mounted over an Express or Restify powered back-end.
 
-Another design concern that should be improved in future releases are the correct storage of games in current execution so the UI can display the remaining time accurately. 
-
 ## Features implemented
 
 - Buy and upgrade business.
 - Run business and earn money.
-- Hire managers to run business automatically.
+- Hire managers to run business automatically (See manager list below the game panel).
 - Businesses continue to make money while the user is away.
 
 ## Quick start:

@@ -38,7 +38,7 @@ Meteor.call('players.loadPlayer', game.playerId);
 // Update profits on managed business.
 const updateSessionProfits = () => {
   const game = updateFromServer();
-  if (!game.business) {
+  if (!game.business || !game.business.length) {
     return;
   }
   const timestamp = new Date().getTime();
