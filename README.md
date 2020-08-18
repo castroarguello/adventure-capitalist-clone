@@ -8,8 +8,6 @@ The proposed solution implements a full-stack game clone using [Meteor](https://
 
 Meteor framework was selected for its scaffolding simplicity, because it provides out of the box methods for back-end communication through sockets and full-stack reactivity. It integrates the React based UI (among other options) with a custom nodeJS backend and [mongoDB](https://www.mongodb.com/).
 
-The React library was selected because of its increasing market share.
-
 ## Architectural concerns
 
 While the chosen architecture allows quick prototyping, it would probably be better to refactor into a more decoupled architecture, allowing the execution of the game in the UI without constantly updating to the server, for obvious performance reasons.
