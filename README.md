@@ -6,7 +6,7 @@ The coding challenge consists in implementing an [Adventure Capitalist](http://e
 
 The proposed solution implements a full-stack game clone using [Meteor](https://github.com/meteor/meteor) which will give us the ability to create a scalable web application that could be ported easily to other platforms.
 
-Meteor framework was selected for its scaffolding simplicity, because it provides out of the box methods for back-end communication through sockets and full-stack reactivity. It integrates the UI (among other options) with a custom nodeJS backend and [mongoDB](https://www.mongodb.com/).
+Meteor framework was selected for its scaffolding simplicity, because it provides out of the box methods for back-end communication through sockets and full-stack reactivity. It integrates the React based UI (among other options) with a custom nodeJS backend and [mongoDB](https://www.mongodb.com/).
 
 The React library was selected because of its increasing market share.
 
