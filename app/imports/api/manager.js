@@ -1,7 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { PlayersCollection } from './players';
-// import { TypesCollection } from '/imports/api/types';
  
 export const ManagerCollection = new Mongo.Collection('manager');
 
