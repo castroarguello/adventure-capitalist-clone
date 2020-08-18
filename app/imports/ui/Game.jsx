@@ -121,7 +121,7 @@ export const Game = () => {
   const numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
   const { cash } = useTracker(() => ({
-    cash: player ? numberWithCommas(player.cash) : 0,
+    cash: player ? numberWithCommas(+player.cash.toFixed(2)) : 0,
   }));
 
   const playerId = player ? player._id : 0;
