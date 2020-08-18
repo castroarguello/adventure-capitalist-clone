@@ -3,7 +3,6 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session';
 import { Random } from 'meteor/random';
 import { Tracker } from 'meteor/tracker';
-import { _ } from 'lodash';
 
 import { PlayersCollection } from '../api/players';
 import { ManagerCollection } from '../api/manager';
@@ -95,24 +94,6 @@ const interval = Meteor.setInterval(() => {
 }, 1000);
 
 export const Game = () => {
-
-  const RunManagers = () => {
-
-    return (<button className="btn btn-info" onClick={updateFromServer}>Run Managers</button>);
-  };
-
-  const RenderPlayer = ({ player }) => {
-    if (player) {
-      return (
-        <div>
-          <Player player={player} />
-        </div>
-      );
-    }
-    return '';
-  };
-
-
   const { types, player } = useTracker(() => ({
     types: TypesCollection.find().fetch(),
     player: PlayersCollection.find({ _id: Session.get('game').playerId }).fetch()[0],

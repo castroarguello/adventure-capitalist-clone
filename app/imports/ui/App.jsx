@@ -1,6 +1,5 @@
 import React from 'react';
 import { Game } from './Game.jsx';
-import { Player } from './Player.jsx';
 
 export const App = () => (
   <div className="container">

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Player } from './Player';
 import { BusinessCollection } from '/imports/api/business';
 import { PlayersCollection } from '/imports/api/players';
 
@@ -11,11 +10,6 @@ export const Business = ({ playerId, type }) => {
     business: BusinessCollection.find({ type: type.id, player: playerId }).fetch()[0],
     player: PlayersCollection.find({ _id: playerId }).fetch()[0],
   }));
-
-  this.shouldComponentUpdate = (nextProps, nextState) => {
-    return false;
-  };
-
 
   // Track other values that use business.
   const { canBuy, canUpgrade, profit } = useTracker(() => ({

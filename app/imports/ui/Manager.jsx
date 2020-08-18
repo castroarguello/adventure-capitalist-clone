@@ -38,7 +38,6 @@ export const Manager = ({ player }) => {
               <span className="manager__type"> { manager.type } </span>
               <RenderHireButton manager={manager} player={player} />
             </div>
-
           </div>
         )}
       </div>

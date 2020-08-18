@@ -39,7 +39,6 @@ Meteor.methods({
   'business.upgrade'(playerId, typeId, businessId) {
     const type = TypesCollection.find({ id: typeId }).fetch()[0];
     const player = PlayersCollection.find({ _id: playerId }).fetch()[0];
-
     const business = BusinessCollection.find({ _id: businessId }).fetch()[0];
 
     if (business) {

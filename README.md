@@ -27,11 +27,11 @@ Another design concern that should be improved in future releases are the correc
 
 ## Quick start:
 
-- git clone https://github.com/castroarguello/gamesim
+- git clone https://github.com/castroarguello/adventure-capitalist-clone
 
 With Meteor installed locally:
 
-- cd gamesim/app
+- cd adventure-capitalist-clone/app
 - meteor run
 
 Start docker container:
