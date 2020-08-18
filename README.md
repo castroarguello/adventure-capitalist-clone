@@ -12,7 +12,9 @@ The React library was selected because of its increasing market share.
 
 ## Architectural concerns
 
-While the chosen architecture allows quick prototyping, it would probably be better to refactor into a more decoupled architecture, allowing the execution of the game in the UI without constant update to the server, for obvious performance reasons.
+While the chosen architecture allows quick prototyping, it would probably be better to refactor into a more decoupled architecture, allowing the execution of the game in the UI without constantly updating to the server, for obvious performance reasons. 
+
+There are also some issues with the reactive components when playing with managers: given that the player cash increases automatically, all business componets are rendered too often which sometimes leads to errors when trying to update unmounted components.
 
 Similar result could be achieved using a different, probably more decoupled stack such as a React UI communicating with REST endpoints mounted over an Express or Restify powered back-end.
 
@@ -28,14 +30,17 @@ Another design concern that should be improved in future releases are the correc
 ## Quick start:
 
 - git clone https://github.com/castroarguello/adventure-capitalist-clone
+- cd adventure-capitalist-clone
 
-With Meteor installed locally:
+### Option 1: Install Meteor locally:
 
+- curl https://install.meteor.com/ | sh
 - cd adventure-capitalist-clone/app
 - meteor run
 
-Start docker container:
+### Option 2: Start docker container:
 
+- cd adventure-capitalist-clone/
 - docker-compose up
 
 Access http://localhost:3000 in the browser.
