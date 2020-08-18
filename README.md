@@ -8,6 +8,13 @@ The proposed solution implements a full-stack game clone using [Meteor](https://
 
 Meteor framework was selected for its scaffolding simplicity, because it provides out of the box methods for back-end communication through sockets and full-stack reactivity. It integrates the React based UI (among other options) with a custom nodeJS backend and [mongoDB](https://www.mongodb.com/).
 
+## Implemented features 
+
+- Buy and upgrade business.
+- Run business and earn money.
+- Hire managers to run business automatically (See manager list below the game panel).
+- Businesses continue to make money while the user is away.
+
 ## Architectural concerns
 
 While the chosen architecture allows quick prototyping, it would probably be better to refactor into a more decoupled architecture, allowing the execution of the game in the UI without constantly updating to the server, for obvious performance reasons.
@@ -15,13 +22,6 @@ While the chosen architecture allows quick prototyping, it would probably be bet
 There are also some issues with the reactive components when playing with managers: given that the player cash increases automatically, all business componets are rendered too often which sometimes leads to errors when trying to update unmounted components.
 
 Similar result could be achieved using a different, probably more decoupled stack such as a React UI communicating with REST endpoints mounted over an Express or Restify powered back-end.
-
-## Features implemented
-
-- Buy and upgrade business.
-- Run business and earn money.
-- Hire managers to run business automatically (See manager list below the game panel).
-- Businesses continue to make money while the user is away.
 
 ## Quick start:
 
