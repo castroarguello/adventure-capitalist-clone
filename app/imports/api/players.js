@@ -4,21 +4,7 @@ import { BusinessCollection } from './business';
 export const PlayersCollection = new Mongo.Collection('players');
 
 Meteor.methods({
-  'players.switchBatch'(playerId) {
-    const player = PlayersCollection.find({ _id: playerId }).fetch()[0];
-
-    const options = [1, 10, 100, 'max'];
-    let pos = options.indexOf(player.upgradeBatch);
-    pos++;
-    if (pos < 0  || pos >= options.length) {
-      pos = 0;
-    }
-    player.upgradeBatch = options[pos];
-
-    player.updatedAt = new Date().getTime();
-    PlayersCollection.upsert({ _id: playerId }, player);
-  },
- 
+  // Increase player profit.
   'players.increaseProfit'(playerId, profit) {
     const player = PlayersCollection.find({ _id: playerId }).fetch()[0];
     if (player) {
@@ -27,6 +13,7 @@ Meteor.methods({
     }
   },
  
+  // Load or create the player object.
   'players.loadPlayer'(playerId) {
     const player = PlayersCollection.find({ _id: playerId }).fetch()[0];
 
@@ -42,7 +29,6 @@ Meteor.methods({
       PlayersCollection.upsert({ _id: playerId }, newPlayer);
       Meteor.call('business.buy', playerId, 'lemonade');
     }
-
   },
  
 });
